@@ -1,4 +1,4 @@
-package com.proyectoPruebas.principal;
+package com.serverProject.arbolUsr;
 
 public class nodoAVL {
 	int balance;

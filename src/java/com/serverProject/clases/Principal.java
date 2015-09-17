@@ -5,7 +5,7 @@
  */
 package com.serverProject.clases;
 
-import com.proyectoPruebas.principal.arbolAVL;
+
 import javax.ejb.Stateless;
 import javax.ws.rs.*;
 import com.serverProject.arbolUsr.*;

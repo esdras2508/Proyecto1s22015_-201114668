@@ -1,5 +1,4 @@
-package com.proyectoPruebas.principal;
-import com.proyectoPruebas.principal.nodoAVL;
+package com.serverProject.arbolUsr;
 
 public class arbolAVL {
 	private nodoAVL raiz, aux, busqueda, nuevaRaiz;
