@@ -244,11 +244,11 @@ public class arbolEstacion {
         return DD(nodo);
     }
 
-    public NodoEstacion Buscar(int id) {//buscar por correo
+    public NodoEstacion Buscar(int id) {//buscar por id
         return Buscar(id, raiz);
     }
 
-    private NodoEstacion Buscar(int id, NodoEstacion A) {//busqueda interna por correo
+    private NodoEstacion Buscar(int id, NodoEstacion A) {//busqueda interna por id
         if (A != null) {
             if (id < A.id) {
                 Buscar(id, A.izquierda);

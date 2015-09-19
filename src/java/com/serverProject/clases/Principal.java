@@ -6,9 +6,14 @@
 package com.serverProject.clases;
 
 
-import javax.ejb.Stateless;
+import com.serverProject.arbolChofer.ArbolChofer;
+import com.serverProject.arbolChofer.NodoChofer;
+import com.serverProject.arbolEstacion.NodoEstacion;
+import com.serverProject.arbolEstacion.arbolEstacion;
 import javax.ws.rs.*;
 import com.serverProject.arbolUsr.*;
+import javax.ejb.Stateless;
+import javax.ws.rs.core.MediaType;
 
 /**
  *
@@ -19,17 +24,43 @@ import com.serverProject.arbolUsr.*;
 public class Principal {
     
     arbolAVL nuevo;
+    ArbolChofer chofer;
+    arbolEstacion estacion;
+    
+    
     @GET
-    @Path("{usr}/{pass}")
+    @Path("/login/{usr}/{pass}")
+    @Produces(MediaType.TEXT_PLAIN)
     public String usuario(@PathParam("usr") String usr,@PathParam("pass") String pass ){
-        /*String usr = "hola";*/
-        if(usr.equals("admin")){
+        if(nuevo == null)nuevo = new arbolAVL();
+        if(chofer == null) chofer = new ArbolChofer();
+        if(estacion == null) estacion= new arbolEstacion();
+        String respuesta = "";
+        
+        if(usr.equals("admin") && pass.equals("admin")){
             System.out.println("Bienvenido ");
-            return "Bienvenido Admin";
+            respuesta = "Administrador";
         }else{
-            System.out.println("Usuario no encontrado");
-            return "no se a encontrado el usuario";
+            nodoAVL busqueda = nuevo.Buscar(usr);
+            if(busqueda != null){
+                if(busqueda.getCorreo().equals(usr) && busqueda.getPass().equals(pass)){
+                    respuesta = "Administrador";
+                }
+            }else{
+                NodoChofer buscarChofer = chofer.Buscar(Integer.parseInt(usr));
+                if(buscarChofer.getId() == Integer.parseInt(usr) && buscarChofer.getPass().equals(pass)){
+                    respuesta = "Chofer";
+                }else{
+                    NodoEstacion buscarEstacion = estacion.Buscar(Integer.parseInt(usr));
+                    if(buscarEstacion.getId() == Integer.parseInt(usr) && buscarEstacion.getPass().equals(pass)){
+                        respuesta = "Estacion";
+                    }else{
+                        respuesta = "No existe";
+                    }
+                }
+            }
         }
+        return respuesta;
       
     }
     
