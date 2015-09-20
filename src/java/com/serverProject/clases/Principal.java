@@ -5,7 +5,6 @@
  */
 package com.serverProject.clases;
 
-
 import com.serverProject.arbolChofer.ArbolChofer;
 import com.serverProject.arbolChofer.NodoChofer;
 import com.serverProject.arbolEstacion.NodoEstacion;
@@ -22,64 +21,70 @@ import javax.ws.rs.core.MediaType;
 @Stateless
 @Path("/services")
 public class Principal {
-    
+
     arbolAVL nuevo;
     ArbolChofer chofer;
     arbolEstacion estacion;
-    
-    
+
     @GET
     @Path("/login/{usr}/{pass}")
     @Produces(MediaType.TEXT_PLAIN)
-    public String usuario(@PathParam("usr") String usr,@PathParam("pass") String pass ){
-        if(nuevo == null)nuevo = new arbolAVL();
-        if(chofer == null) chofer = new ArbolChofer();
-        if(estacion == null) estacion= new arbolEstacion();
+    public String usuario(@PathParam("usr") String usr, @PathParam("pass") String pass) {
+        if (nuevo == null) {
+            nuevo = new arbolAVL();
+        }
+        if (chofer == null) {
+            chofer = new ArbolChofer();
+        }
+        if (estacion == null) {
+            estacion = new arbolEstacion();
+        }
         String respuesta = "";
-        
-        if(usr.equals("admin") && pass.equals("admin")){
+
+        if (usr.equals("admin") && pass.equals("admin")) {
             System.out.println("Bienvenido ");
             respuesta = "Administrador";
-        }else{
+        } else {
             nodoAVL busqueda = nuevo.Buscar(usr);
-            if(busqueda != null){
-                if(busqueda.getCorreo().equals(usr) && busqueda.getPass().equals(pass)){
+            if (busqueda != null) {
+                if (busqueda.getCorreo().equals(usr) && busqueda.getPass().equals(pass)) {
                     respuesta = "Administrador";
                 }
-            }else{
+            } else {
                 NodoChofer buscarChofer = chofer.Buscar(Integer.parseInt(usr));
-                if(buscarChofer.getId() == Integer.parseInt(usr) && buscarChofer.getPass().equals(pass)){
+                if (buscarChofer.getId() == Integer.parseInt(usr) && buscarChofer.getPass().equals(pass)) {
                     respuesta = "Chofer";
-                }else{
+                } else {
                     NodoEstacion buscarEstacion = estacion.Buscar(Integer.parseInt(usr));
-                    if(buscarEstacion.getId() == Integer.parseInt(usr) && buscarEstacion.getPass().equals(pass)){
+                    if (buscarEstacion.getId() == Integer.parseInt(usr) && buscarEstacion.getPass().equals(pass)) {
                         respuesta = "Estacion";
-                    }else{
+                    } else {
                         respuesta = "No existe";
                     }
                 }
             }
         }
         return respuesta;
-      
+
     }
-    
-    @POST
-    @Path("/agregar")
-    public String nuevoUsr(@PathParam("usr") String usr, @PathParam("pass") String pass){
+
+    @GET
+    @Path("/agregar/{usr}/{pass}")
+    @Produces(MediaType.TEXT_PLAIN)
+    public String nuevoUsr(@PathParam("usr") String usr, @PathParam("pass") String pass) {
         String respuesta;
-        if(nuevo == null){
+        if (nuevo == null) {
             nuevo = new arbolAVL();
-            if(nuevo.insertar(usr, pass)){
-                respuesta = "Usuario ingresado correctamente";
-            }else{
-                respuesta = "El usuario no se a podido ingresar";
+            if (nuevo.insertar(usr, pass)) {
+                respuesta = "correcto";
+            } else {
+                respuesta = "incorrecto";
             }
-        }else{
-            if(nuevo.insertar(usr, pass)){
-                respuesta = "Usuario ingresado correctamente";
-            }else{
-                respuesta = "El usuario no se a podido ingresar";
+        } else {
+            if (nuevo.insertar(usr, pass) == true) {
+                respuesta = "correcto";
+            } else {
+                respuesta = "incorrecto";
             }
         }
         return respuesta;
